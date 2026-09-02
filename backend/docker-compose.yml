@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: quiz_eclair_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: quiz_eclair
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5433:5432"
+    volumes:
+      - quiz_eclair_data:/var/lib/postgresql/data
+
+volumes:
+  quiz_eclair_data:

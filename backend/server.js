@@ -1,6 +1,9 @@
 import express from "express";
 import cors from "cors";
-import questionRoutes from "./routes/questionRoutes.js";
+import dotenv from "dotenv";
+import sequelize from "./config/database.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -9,14 +12,24 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
-    message: "Quiz Éclair API fonctionne !"
+    message: "Quiz Éclair API fonctionne !",
   });
 });
 
-app.use("/api", questionRoutes);
+const PORT = process.env.PORT || 3000;
 
-const PORT = 3000;
+const startServer = async () => {
+  try {
+    await sequelize.authenticate();
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+    console.log("PostgreSQL connected successfully");
+
+    app.listen(PORT, () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Database connection error:", error.message);
+  }
+};
+
+startServer();
