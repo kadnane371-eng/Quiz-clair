@@ -1,7 +1,9 @@
-import questions from "../data/questions.js";
+import Question from "./Question.js";
 
-export const getQuestionsByCategory = (category) => {
-  return questions.filter(
-    (question) => question.category === category
-  );
+export const getQuestionsByCategory = async (category) => {
+  return await Question.findAll({
+    where: {
+      category: category,
+    },
+  });
 };
