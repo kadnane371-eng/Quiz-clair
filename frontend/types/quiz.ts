@@ -10,3 +10,12 @@ export interface Question {
   correctAnswer: string;
   category: Category;
 }
+
+export type QuizPhase = "category" | "playing" | "result";
+
+export interface CategoryInfo {
+  name: Category;
+  icon: string;
+  questionCount: number;
+  color: string;
+}

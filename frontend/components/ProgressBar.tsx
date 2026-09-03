@@ -1,3 +1,4 @@
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../constants/colors";
 
@@ -6,27 +7,26 @@ interface ProgressBarProps {
   total: number;
 }
 
-export default function ProgressBar({
-  current,
-  total,
-}: ProgressBarProps) {
+export default function ProgressBar({ current, total }: ProgressBarProps) {
   const progress = current / total;
+  const percentage = Math.round(progress * 100);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>
-        Question {current}/{total}
+      <Text style={styles.label}>
+        Question {current} / {total}
       </Text>
 
-      <View style={styles.background}>
-        <View
-          style={[
-            styles.progress,
-            {
-              width: `${progress * 100}%`,
-            },
-          ]}
-        />
+      <View style={styles.barRow}>
+        <View style={styles.barBackground}>
+          <View
+            style={[
+              styles.barFill,
+              { width: `${percentage}%` },
+            ]}
+          />
+        </View>
+        <Text style={styles.percentage}>{percentage}%</Text>
       </View>
     </View>
   );
@@ -34,26 +34,39 @@ export default function ProgressBar({
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 25,
+    marginBottom: 20,
+    paddingHorizontal: 4,
   },
-
-  text: {
-    fontSize: 15,
+  label: {
+    fontSize: 14,
     fontWeight: "600",
-    color: COLORS.text,
-    marginBottom: 8,
+    color: COLORS.textSecondary,
+    textAlign: "center",
+    marginBottom: 10,
+    letterSpacing: 0.3,
   },
-
-  background: {
-    height: 8,
+  barRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  barBackground: {
+    flex: 1,
+    height: 10,
     backgroundColor: COLORS.lightGray,
     borderRadius: 10,
     overflow: "hidden",
   },
-
-  progress: {
+  barFill: {
     height: "100%",
     backgroundColor: COLORS.primary,
     borderRadius: 10,
+  },
+  percentage: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: COLORS.primary,
+    minWidth: 36,
+    textAlign: "right",
   },
 });
